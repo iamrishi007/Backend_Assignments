@@ -1,0 +1,32 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "name": "Rushikesh ",
+      "age": 22,
+      "can drive": false
+    },
+    {
+      "id": 2,
+      "name": "Nilesh ",
+      "age": 21,
+      "can drive": false
+    },
+    {
+      "id": 3,
+      "name": "Sanket",
+      "age": 23,
+      "can drive": false
+    },
+    {
+      "id": 4,
+      "name": "Rahul",
+      "age": 25,
+      "can drive": false
+    },
+    {
+      "id": 5,
+      "status": false
+    }
+  ]
+}
