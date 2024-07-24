@@ -1,0 +1,59 @@
+1 Retrieve documents from the products where supplier_id is 3:
+
+
+db.products.find({ supplier_id: 3 })
+
+
+2 Retrieve the documents from the orders collection with "status": "shipped":
+
+
+db.orders.find({ status: "shipped" })
+
+3 Find buyers who are from the state CA:
+
+
+db.buyers.find({ "address.state": "CA" })
+
+4 Retrieve the amount, paymentstatus, and paymentMethod from payments:
+
+
+db.payments.find({}, { amount: 1, paymentstatus: 1, paymentMethod: 1, _id: 0 })
+
+5 Retrieve documents from the orders without _id:
+
+
+db.orders.find({}, { _id: 0 })
+
+6 Retrieve name and price from the products:
+
+
+db.products.find({}, { name: 1, price: 1, _id: 0 })
+
+7 Find buyers' city and zip code:
+
+db.buyers.find({}, { "address.city": 1, "address.zip": 1, _id: 0 })
+
+8 Find buyers' name, email, city, and zip code:
+
+
+db.buyers.find({}, { name: 1, email: 1, "address.city": 1, "address.zip": 1, _id: 0 })
+
+9 Find suppliers' name and phone:
+
+
+db.suppliers.find({}, { name: 1, phone: 1, _id: 0 })
+
+10 Find buyers' name, email, city, and zip code:
+
+
+db.buyers.find({}, { name: 1, email: 1, "address.city": 1, "address.zip": 1, _id: 0 })
+
+11 Find buyers' city and zip code:
+
+
+db.buyers.find({}, { "address.city": 1, "address.zip": 1, _id: 0 })
+
+12 Retrieve name and price from the products:
+
+
+db.products.find({}, { name: 1, price: 1, _id: 0 })
