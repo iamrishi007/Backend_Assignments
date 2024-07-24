@@ -1,0 +1,120 @@
+1 What is a NoSQL Database, and explain the types of NoSQL database?
+   
+  ANS: A NoSQL database is a way to store data that doesn't use tables like traditional databases. It's good for big data and flexible data types.
+
+Types of NoSQL databases:
+
+Document Databases: Store data as documents (e.g., MongoDB).
+Key-Value Stores: Store data as key-value pairs (e.g., Redis).
+Column-Family Stores: Store data in columns (e.g., Cassandra).
+Graph Databases: Store data as nodes and relationships (e.g., Neo4j).
+
+2 What is the difference between SQL and NoSQL databases?
+
+ANS:
+
+ Data Model:
+
+ SQL: Fixed tables, rows, and columns.
+ NoSQL: Flexible documents, key-value pairs, columns, or graphs.
+ Scalability:
+
+ SQL: Scales up (add more power to one server).
+ NoSQL: Scales out (add more servers).
+ Transactions:
+
+ SQL: Stronger consistency with ACID transactions.
+ NoSQL: More flexible with BASE transactions.
+ Use Cases:
+
+ SQL: Best for complex queries and transactions.
+ NoSQL: Best for large-scale, fast-changing data.
+
+
+3. How to choose between MongoDB and MySQL based on your requirements?
+
+ANS:
+
+Choose MongoDB if:
+
+You need flexible data storage.
+You have lots of unstructured data.
+You need to write data quickly.
+You need to add more servers as you grow.
+Choose MySQL if:
+
+You need structured, fixed data storage.
+You have clear data relationships.
+You need complex queries and transactions.
+You can add more power to a single server as you grow.
+
+4. What are collections and documents in a MongoDB database?
+
+ANS:
+
+Collections: Groups of documents, like tables in SQL.
+Documents: Data records, like rows in SQL, stored as key-value pairs.
+
+
+5. What is BSON? What is the difference between BSON and JSON?
+
+ANS:
+
+BSON: A binary version of JSON, used by MongoDB for efficiency.
+Difference:
+JSON: Text format, easy to read.
+BSON: Binary format, faster to process and store.
+
+6. What are MongoDB Compass and MongoDB Shell used for?
+
+ANS:
+
+MongoDB Compass: A graphical tool to see and manage your data.
+MongoDB Shell (mongosh): A command-line tool to interact with your data.
+7. How to create collections in MongoDB?
+
+ANS:
+
+Collections are created automatically when you insert the first document.
+Or use db.createCollection("myCollection") to create one explicitly.
+
+8. What is the difference between insertMany and insertOne?
+
+ANS:
+
+insertMany: Adds multiple documents at once.
+insertOne: Adds one document.
+
+9. What is the difference between deleteOne and deleteMany?
+
+ANS:
+
+deleteOne: Removes one document that matches the criteria.
+deleteMany: Removes all documents that match the criteria.
+
+
+10. How to read data in MongoDB? What is the difference between find and findOne?
+
+ANS:
+
+find: Gets all documents that match the criteria.
+findOne: Gets the first document that matches the criteria.
+
+
+11. What is $set in MongoDB?
+
+ANS:
+
+$set: Updates or adds a field in a document.
+javascript
+Copy code
+db.collection.updateOne({ _id: 1 }, { $set: { name: "John Doe" } });
+
+12. How to filter data using MongoDB?
+
+ANS:
+
+Use the find method with criteria.
+javascript
+Copy code
+db.collection.find({ age: { $gt: 25 } });
