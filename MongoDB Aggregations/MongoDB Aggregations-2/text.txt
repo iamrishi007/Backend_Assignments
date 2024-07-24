@@ -1,0 +1,79 @@
+
+1. Retrieve the documents from the orders where the customer_id is 1.
+
+db.orders.find({ customer_id: 1 })
+2. Retrieve documents from the products where supplier_id is 3.
+
+db.products.find({ supplier_id: 3 })
+3. Retrieve the documents from the orders collection with "status": "shipped".
+
+db.orders.find({ status: "shipped" })
+4. Retrieve the amount and paymentMethod from payments where the paymentMethod is not UPI.
+
+db.payments.find({ paymentMethod: { $ne: "UPI" } }, { amount: 1, paymentMethod: 1, _id: 0 })
+5. Retrieve the paymentstatus where the amount is greater than 100.
+
+db.payments.find({ amount: { $gt: 100 } }, { paymentstatus: 1, _id: 0 })
+6. Retrieve the shipper_id and price from the order_details where the price is greater than 2000.
+
+db.order_details.find({ price: { $gt: 2000 } }, { shipper_id: 1, price: 1, _id: 0 })
+7. Retrieve the customer_id and _id from the orders where the status is not shipped.
+
+db.orders.find({ status: { $ne: "shipped" } }, { customer_id: 1, _id: 1 })
+8. Retrieve documents from the products where category_id is 1 without product _id.
+
+db.products.find({ category_id: 1 }, { _id: 0 })
+9. Retrieve name, quantity from the products where price is greater than 1500.
+
+db.products.find({ price: { $gt: 1500 } }, { name: 1, quantity: 1, _id: 0 })
+10. Retrieve the name from the shippers where the phone number is 1-800-742-5877.
+
+db.shippers.find({ phone: "1-800-742-5877" }, { name: 1, _id: 0 })
+11. Retrieve the city and phone of the suppliers where the supplier's name is Sony.
+
+db.suppliers.find({ name: "Sony" }, { city: 1, phone: 1, _id: 0 })
+12. Retrieve the name of the suppliers where the city is Tokyo.
+
+db.suppliers.find({ city: "Tokyo" }, { name: 1, _id: 0 })
+13. Find the amount of payment made through "UPI".
+
+db.payments.aggregate([
+  { $match: { paymentMethod: "UPI" } },
+  { $group: { _id: null, totalAmount: { $sum: "$amount" } } },
+  { $project: { _id: 0, totalAmount: 1 } }
+])
+14. Find buyers city as key name "city" who uses hotmail.
+
+db.buyers.aggregate([
+  { $match: { email: { $regex: "hotmail.com$" } } },
+  { $project: { city: "$address.city", _id: 0 } }
+])
+15. Retrieve the top 5 most recent orders that have been shipped, projecting the order date, status, and total amount.
+
+db.orders.aggregate([
+  { $match: { status: "shipped" } },
+  { $sort: { order_date: -1 } },
+  { $limit: 5 },
+  { $project: { order_date: 1, status: 1, total: 1, _id: 0 } }
+])
+16. Aggregate the first 3 payments with a "success" status, projecting the payment date, amount, and method.
+
+db.payments.aggregate([
+  { $match: { paymentstatus: "success" } },
+  { $limit: 3 },
+  { $project: { payment_date: 1, amount: 1, paymentMethod: 1, _id: 0 } }
+])
+17. Aggregate all pending orders, sort them by the order date in descending order, and project the customer ID, order date, and total amount.
+
+db.orders.aggregate([
+  { $match: { status: "pending" } },
+  { $sort: { order_date: -1 } },
+  { $project: { customer_id: 1, order_date: 1, total: 1, _id: 0 } }
+])
+18. Aggregate products, sort them by quantity in descending order, limit the result to the top 10 items, and project the product name and quantity.
+
+db.products.aggregate([
+  { $sort: { quantity: -1 } },
+  { $limit: 10 },
+  { $project: { name: 1, quantity: 1, _id: 0 } }
+])
