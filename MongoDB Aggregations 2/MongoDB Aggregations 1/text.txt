@@ -1,0 +1,127 @@
+
+Retrieve the unique cities from the buyers' addresses as _id:
+
+db.buyers.distinct("address.city")
+
+Retrieve the unique zip codes from the buyers' addresses as _id:
+
+db.buyers.distinct("address.zip")
+
+Retrieve the unique order_id in ascending order from the order_details:
+
+db.order_details.distinct("order_id").sort()
+
+
+Retrieve the unique customer_id from the orders:
+
+db.orders.distinct("customer_id")
+
+
+Retrieve the unique payment methods from the payments collection as _id:
+
+db.payments.distinct("paymentMethod")
+
+
+Retrieve the unique payment statuses from the payments collection as _id:
+
+db.payments.distinct("paymentstatus")
+
+
+Retrieve the unique category_id from products:
+
+db.products.distinct("category_id")
+
+Aggregate the total sales per customer and list the top 5 customers by total sales amount. Include the customer's ID and their total sales in the output:
+
+db.orders.aggregate([
+    {
+        $group: {
+            _id: "$customer_id",
+            totalSales: { $sum: "$total" }
+        }
+    },
+    {
+        $sort: { totalSales: -1 }
+    },
+    {
+        $limit: 5
+    }
+])
+
+Aggregate the orders to count how many there are per status and show only the first 3 statuses based on the aggregated count:
+
+db.orders.aggregate([
+    {
+        $group: {
+            _id: "$status",
+            count: { $sum: 1 }
+        }
+    },
+    {
+        $sort: { count: -1 }
+    },
+    {
+        $limit: 3
+    }
+])
+Calculate the total amount of payments that have a success status:
+
+
+db.payments.aggregate([
+    {
+        $match: { paymentstatus: "success" }
+    },
+    {
+        $group: {
+            _id: null,
+            totalAmount: { $sum: "$amount" }
+        }
+    }
+])
+Aggregate suppliers to find the one with the highest total quantity of products supplied, filtering to only include suppliers with a total product quantity greater than 100:
+
+db.products.aggregate([
+    {
+        $group: {
+            _id: "$supplier_id",
+            totalQuantity: { $sum: "$quantity" }
+        }
+    },
+    {
+        $match: { totalQuantity: { $gt: 100 } }
+    },
+    {
+        $sort: { totalQuantity: -1 }
+    },
+    {
+        $limit: 1
+    }
+])
+
+Find the top-selling product category based on total sales revenue:
+
+db.order_details.aggregate([
+    {
+        $lookup: {
+            from: "products",
+            localField: "product_id",
+            foreignField: "_id",
+            as: "product"
+        }
+    },
+    {
+        $unwind: "$product"
+    },
+    {
+        $group: {
+            _id: "$product.category_id",
+            totalSalesRevenue: { $sum: { $multiply: ["$quantity", "$price"] } }
+        }
+    },
+    {
+        $sort: { totalSalesRevenue: -1 }
+    },
+    {
+        $limit: 1
+    }
+])

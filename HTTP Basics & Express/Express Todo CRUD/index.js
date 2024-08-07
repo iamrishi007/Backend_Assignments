@@ -17,7 +17,7 @@ const writeData = (data) => {
     fs.writeFileSync("db.json", JSON.stringify(data, null, 2))
 };
 
-// Get all todos
+
 server.get("/todos", (req, res) => {
     const data = readData()
     res.json(data.todos)

@@ -1,0 +1,84 @@
+
+# MongoDB Query Examples
+
+This document provides various MongoDB queries to address specific problem statements related to a sample dataset.
+
+## Problem Statements and Queries
+
+### 1. Retrieve documents from the orders in ascending order by total
+```javascript
+db.orders.find().sort({ total: 1 })
+```
+
+### 2. Retrieve the oldest paymentMethod from the payments collection as "_id"
+```javascript
+db.payments.find().sort({ payment_date: 1 }).limit(1).project({ _id: 1, paymentMethod: 1 })
+```
+
+### 3. Retrieve 2nd and 3rd buyers from the buyers collection
+```javascript
+db.buyers.find().skip(1).limit(2)
+```
+
+### 4. Retrieve the most expensive product from order_details
+```javascript
+db.order_details.find().sort({ price: -1 }).limit(1)
+```
+
+### 5. Retrieve the first order from the orders as per the order_date
+```javascript
+db.orders.find().sort({ order_date: 1 }).limit(1)
+```
+
+### 6. Retrieve the last 3 orders from the orders collection who have less total amount
+```javascript
+db.orders.find().sort({ total: 1 }).limit(3)
+```
+
+### 7. Retrieve the most recent shipped order from the orders collection
+```javascript
+db.orders.find({ status: "shipped" }).sort({ ship_date: -1 }).limit(1)
+```
+
+### 8. Get the total revenue from all orders
+```javascript
+db.orders.aggregate([
+  { $group: { _id: null, totalRevenue: { $sum: "$total" } } }
+])
+```
+
+### 9. Retrieve all the orders that shipped before 2022-05-26
+```javascript
+db.orders.find({ ship_date: { $lt: ISODate("2022-05-26") } })
+```
+
+### 10. Find the maximum price as maxPrice of products and their names as name for each category
+```javascript
+db.products.aggregate([
+  { $group: { _id: "$category_id", maxPrice: { $max: "$price" }, name: { $first: "$name" } } }
+])
+```
+
+### 11. Find the most used payment method as paymentMethod and the number of times it is used as count
+```javascript
+db.payments.aggregate([
+  { $group: { _id: "$paymentMethod", count: { $sum: 1 } } },
+  { $sort: { count: -1 } },
+  { $limit: 1 }
+])
+```
+
+### 12. Find the total count of orders by status
+```javascript
+db.orders.aggregate([
+  { $group: { _id: "$status", count: { $sum: 1 } } }
+])
+```
+
+### 13. Retrieve the orders grouped by customer_id with the max total
+```javascript
+db.orders.aggregate([
+  { $group: { _id: "$customer_id", maxTotal: { $max: "$total" } } }
+])
+
+

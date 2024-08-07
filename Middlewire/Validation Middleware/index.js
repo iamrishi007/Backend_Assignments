@@ -29,7 +29,7 @@ function validateTodoData(req, res, next) {
     }
 
     console.log('Valid data received.')
-    res.send(ID,Name)
+    res.send(ID, Name)
     next();
 }
 
